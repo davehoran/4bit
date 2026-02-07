@@ -1,7 +1,7 @@
 # 4bit Simulator
 Simple 4-bit system simulator within a browser. Initially generated from Claude, this will be estended to include addtional instructions. 
 
-# Instruction Set Architecture (ISA)
+## Instruction Set Architecture (ISA)
 **LDA** addr - Load Accumulator
 Loads the 4-bit value from memory address into the accumulator. A = MEM[addr]
 
@@ -32,7 +32,7 @@ Stops program execution
 **NOP** - No Operation
 Does nothing, advances to next instruction
 
-# Notes:
+## Notes:
 All values are 4-bit (0-15)
 Memory addresses are 4-bit (0-15)
 Labels can be used instead of addresses
