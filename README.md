@@ -6,8 +6,6 @@ A simple, educational web-based simulator for developing and running assembly co
 ![Platform](https://img.shields.io/badge/platform-Web-blue)
 ![Architecture](https://img.shields.io/badge/architecture-4--bit-red)
 
----
-
 ## 📖 Overview
 
 This HTML/JS/CSS application provides an interactive environment to:
@@ -15,8 +13,6 @@ This HTML/JS/CSS application provides an interactive environment to:
 - ▶️ Execute programs step-by-step or continuously
 - 🔍 Observe CPU state, memory, and flag changes in real-time
 - 🎓 Learn fundamental computer architecture concepts
-
----
 
 ## 🔧 Instruction Set Architecture (ISA)
 
@@ -45,4 +41,62 @@ This HTML/JS/CSS application provides an interactive environment to:
 ### I/O and System Instructions
 
 | Instruction | Opcode | Description | Operation |
-|-------------|-------
+|-------------|--------|-------------|-----------|
+| **OUT** | - | Output | Outputs accumulator value to console |
+| **HLT** | - | Halt | Stops program execution |
+| **NOP** | - | No Operation | Advances to next instruction |
+
+## 📝 Programming Guidelines
+
+### Architecture Constraints
+- ⚙️ **Data Width**: All values are 4-bit (0-15)
+- 📍 **Address Space**: Memory addresses are 4-bit (16 locations: 0-15)
+- 🚩 **Flags**: Zero (Z) and Carry (C) flags
+
+### Syntax Rules
+- 🏷️ **Labels**: Can be used instead of numeric addresses
+- 💬 **Comments**: Start with semicolon (`;`)
+- 🔤 **Case Sensitivity**: Instructions are case-insensitive
+
+### Example Program
+```asm
+; Simple counter program
+      LDA counter    ; Load current count
+      ADD one        ; Increment by 1
+      STA counter    ; Store back to memory
+      OUT            ; Display result
+      JMP start      ; Loop forever
+
+counter: 0
+one:     1
+```
+
+## 🚀 Getting Started
+
+1. Open the HTML file in a web browser
+2. Write your assembly code in the editor
+3. Click "Assemble" to compile
+4. Use "Step" or "Run" to execute your program
+5. Observe the CPU state and output
+
+## 🎯 Learning Objectives
+
+This simulator helps understand:
+- **Instruction fetch-decode-execute cycle**
+- **Register operations** (accumulator-based architecture)
+- **Memory addressing**
+- **Program counter** and control flow
+- **Flag-based conditional branching**
+- **Assembly language programming**
+
+## 📚 Resources
+
+- 4-bit architecture is similar to historical CPUs like the Intel 4004
+- Accumulator-based design simplifies the instruction set
+- Perfect for learning computer organization fundamentals
+
+<div align="center">
+
+**Built with ❤️ for Computer Science Education**
+
+</div>
