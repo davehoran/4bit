@@ -1,33 +1,48 @@
-# 4-bit Computer Simulator
+# 🖥️ 4-bit Computer Simulator
 
-This is a simple HTML/JS/CSS app that simulates the development and running of ASM code on a 4-bit processor. 
+A simple, educational web-based simulator for developing and running assembly code on a 4-bit processor architecture.
 
-## Instruction Set Architecture (ISA)
-- LDA addr - Load Accumulator
--- Loads the 4-bit value from memory address into the accumulator. A = MEM[addr]
-- STA addr - Store Accumulator
--- Stores the accumulator value into memory address. MEM[addr] = A
-- ADD addr - Add
--- Adds the value at memory address to accumulator. A = A + MEM[addr]. Sets carry flag on overflow.
-- SUB addr - Subtract
--- Subtracts the value at memory address from accumulator. A = A - MEM[addr]. Sets carry on underflow.
-- JMP addr - Jump
--- Unconditional jump to address. PC = addr
-- JZ addr - Jump if Zero
--- Jump to address if zero flag is set. If Z=1 then PC = addr
-- JC addr - Jump if Carry
--- Jump to address if carry flag is set. If C=1 then PC = addr
-- OUT - Output
--- Outputs the accumulator value to the console
-- HLT - Halt
--- Stops program execution
-- NOP - No Operation
--- Does nothing, advances to next instruction
-  
-## Notes:
-- All values are 4-bit (0-15)
-- Memory addresses are 4-bit (0-15)
-- Labels can be used instead of addresses
-- Comments start with semicolon (;)
-- Instructions are case-insensitive
-- 
+![Language](https://img.shields.io/badge/language-JavaScript-yellow)
+![Platform](https://img.shields.io/badge/platform-Web-blue)
+![Architecture](https://img.shields.io/badge/architecture-4--bit-red)
+
+---
+
+## 📖 Overview
+
+This HTML/JS/CSS application provides an interactive environment to:
+- ✍️ Write assembly code for a custom 4-bit processor
+- ▶️ Execute programs step-by-step or continuously
+- 🔍 Observe CPU state, memory, and flag changes in real-time
+- 🎓 Learn fundamental computer architecture concepts
+
+---
+
+## 🔧 Instruction Set Architecture (ISA)
+
+### Data Transfer Instructions
+
+| Instruction | Opcode | Description | Operation |
+|-------------|--------|-------------|-----------|
+| **LDA** addr | - | Load Accumulator | `A = MEM[addr]` |
+| **STA** addr | - | Store Accumulator | `MEM[addr] = A` |
+
+### Arithmetic Instructions
+
+| Instruction | Opcode | Description | Operation | Flags |
+|-------------|--------|-------------|-----------|-------|
+| **ADD** addr | - | Add | `A = A + MEM[addr]` | Sets **C** on overflow |
+| **SUB** addr | - | Subtract | `A = A - MEM[addr]` | Sets **C** on underflow |
+
+### Control Flow Instructions
+
+| Instruction | Opcode | Description | Operation | Condition |
+|-------------|--------|-------------|-----------|-----------|
+| **JMP** addr | - | Jump (Unconditional) | `PC = addr` | Always |
+| **JZ** addr | - | Jump if Zero | `PC = addr` | If `Z = 1` |
+| **JC** addr | - | Jump if Carry | `PC = addr` | If `C = 1` |
+
+### I/O and System Instructions
+
+| Instruction | Opcode | Description | Operation |
+|-------------|-------
