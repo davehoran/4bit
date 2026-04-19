@@ -462,54 +462,84 @@ JMP LOOP   ; Repeat forever</textarea>
             clearOutput();
             const code = document.getElementById('code-editor').value;
             const lines = code.split('\n');
-            
+
             program = [];
             labels = {};
+            let constants = {};
             let address = 0;
-            
-            // First pass: collect labels
+
+            // First pass: collect labels and constants
             for (let line of lines) {
                 line = line.trim();
                 if (line === '' || line.startsWith(';')) continue;
-                
-                if (line.includes(':')) {
-                    const labelName = line.split(':')[0].trim();
+
+                // Strip inline comment before checking directive
+                const stripped = line.includes(';') ? line.split(';')[0].trim() : line;
+
+                // CONST directive: CONST name value
+                if (stripped.toUpperCase().startsWith('CONST ')) {
+                    const parts = stripped.split(/\s+/);
+                    if (parts.length < 3) {
+                        log(`Error: CONST directive requires a name and value: '${line}'`, 'error');
+                        return false;
+                    }
+                    const constName = parts[1].toUpperCase();
+                    if (OPCODES.hasOwnProperty(constName)) {
+                        log(`Error: Constant name '${parts[1]}' conflicts with an instruction`, 'error');
+                        return false;
+                    }
+                    const constValue = parseInt(parts[2]);
+                    if (isNaN(constValue) || constValue < 0 || constValue > 15) {
+                        log(`Error: Constant '${parts[1]}' value must be 0-15, got '${parts[2]}'`, 'error');
+                        return false;
+                    }
+                    constants[constName] = constValue;
+                    continue;
+                }
+
+                if (stripped.includes(':')) {
+                    const labelName = stripped.split(':')[0].trim();
                     labels[labelName] = address;
                     continue;
                 }
-                
+
                 address++;
             }
-            
+
             // Second pass: assemble instructions
             for (let line of lines) {
                 line = line.trim();
                 if (line === '' || line.startsWith(';')) continue;
-                if (line.includes(':')) continue;
-                
+
                 // Remove comments
                 if (line.includes(';')) {
                     line = line.split(';')[0].trim();
                 }
-                
+
+                if (line.toUpperCase().startsWith('CONST ')) continue;
+                if (line.includes(':')) continue;
+
                 const parts = line.split(/\s+/);
                 const instruction = parts[0].toUpperCase();
-                
+
                 if (!OPCODES.hasOwnProperty(instruction)) {
                     log(`Error: Unknown instruction '${instruction}'`, 'error');
                     return false;
                 }
-                
+
                 let operand = 0;
                 if (parts.length > 1) {
                     const param = parts[1];
-                    if (labels.hasOwnProperty(param)) {
+                    const paramUpper = param.toUpperCase();
+                    if (constants.hasOwnProperty(paramUpper)) {
+                        operand = constants[paramUpper];
+                    } else if (labels.hasOwnProperty(param)) {
                         operand = labels[param];
                     } else {
                         operand = parseInt(param) & 0xF;
                     }
                 }
-                
+
                 program.push({ opcode: OPCODES[instruction], operand: operand, line: line });
             }
             
