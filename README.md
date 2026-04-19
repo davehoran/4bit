@@ -55,12 +55,46 @@ This HTML/JS/CSS application provides an interactive environment to:
 
 ### Syntax Rules
 - 🏷️ **Labels**: Can be used instead of numeric addresses
+- 🔢 **Constants**: Define symbolic names for numeric values with `CONST`
 - 💬 **Comments**: Start with semicolon (`;`)
 - 🔤 **Case Sensitivity**: Instructions are case-insensitive
 
+### Constants
+
+Use the `CONST` directive to define named compile-time values. Constants are substituted at assembly time and **do not allocate memory**.
+
+**Syntax:** `CONST name value`
+
+- `name` — symbolic identifier (case-insensitive, must not match an instruction name)
+- `value` — integer in range 0–15
+
+```asm
+CONST ONE   1     ; symbolic name for the number 1
+CONST LIMIT 15    ; max 4-bit value
+```
+
+Constants can be used anywhere a label or numeric operand is accepted:
+
+```asm
+CONST COUNTER_ADDR 12   ; address 12 holds the counter
+CONST ONE_ADDR     13   ; address 13 holds the value 1
+
+start:
+    LDA COUNTER_ADDR   ; load counter value
+    ADD ONE_ADDR       ; increment
+    STA COUNTER_ADDR   ; store result
+    OUT
+    JMP start
+```
+
+Unlike labels (`name: value`), constants never occupy a memory slot — they are purely symbolic and resolved during assembly.
+
 ### Example Program
 ```asm
-; Simple counter program
+; Simple counter program using constants
+CONST STEP 1          ; step size (memory address that holds 1)
+
+start:
       LDA counter    ; Load current count
       ADD one        ; Increment by 1
       STA counter    ; Store back to memory
